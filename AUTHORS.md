@@ -1,10 +1,5 @@
 # Coredns Helm chart
 
-## Maintainers
-
-- Manuel Rüger <https://github.com/mrueg>
-- Adam Hamsik <https://github.com/haad>
-
 ## Original Helm Chart Contributors
 
 - Adam Hamsik

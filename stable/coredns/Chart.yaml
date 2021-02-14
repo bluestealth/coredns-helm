@@ -1,7 +1,7 @@
 apiVersion: v2
 name: coredns
-version: 1.14.2
-appVersion: 1.8.0
+version: 0.5.0
+appVersion: v1.8.0-eksbuild.1
 home: https://coredns.io
 icon: https://coredns.io/images/CoreDNS_Colour_Horizontal.png
 description: CoreDNS is a DNS server that chains plugins and provides Kubernetes DNS Services
@@ -9,13 +9,6 @@ keywords:
   - coredns
   - dns
   - kubedns
-sources:
-  - https://github.com/coredns/coredns
-maintainers:
-  - name: mrueg
-  - name: haad
+  - eks
 engine: gotpl
 type: application
-annotations:
-  artifacthub.io/changes: |
-    - Initial helm chart changelog

@@ -46,7 +46,8 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Parameter                               | Description                                                                           | Default                                                     |
 |:----------------------------------------|:--------------------------------------------------------------------------------------|:------------------------------------------------------------|
-| `image.repository`                      | The image repository to pull from                                                     | coredns/coredns                                             |
+| `region`                                | The aws region to pull images from                                                    | us-east-1                                                   |
+| `image.repository`                      | The image repository to pull from                                                     | 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/coredns    |
 | `image.tag`                             | The image tag to pull from                                                            | `v1.7.1`                                                    |
 | `image.pullPolicy`                      | Image pull policy                                                                     | IfNotPresent                                                |
 | `replicaCount`                          | Number of replicas                                                                    | 1                                                           |
@@ -67,6 +68,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | `service.annotations`                   | Annotations to add to service                                                         | {}                                                          |
 | `serviceAccount.create`                 | If true, create & use serviceAccount                                                  | false                                                       |
 | `serviceAccount.name`                   | If not set & create is true, use template fullname                                    |                                                             |
+| `securityContext`                       | CoreDNS Container Security Context                                                    | {}                                                          |
+| `podSecurityContext`                    | Pod Security Context                                                                  | {}                                                          |
 | `rbac.create`                           | If true, create & use RBAC resources                                                  | true                                                        |
 | `rbac.pspEnable`                        | Specifies whether a PodSecurityPolicy should be created.                              | `false`                                                     |
 | `isClusterService`                      | Specifies whether chart should be deployed as cluster-service or normal k8s app.      | true                                                        |

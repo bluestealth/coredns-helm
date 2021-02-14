@@ -1,4 +1,4 @@
-# Coredns Helm Chart repository
+# EKS Coredns Helm Chart repository
 
 ## Kubernetes
 

@@ -3,15 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "coredns.fullname" . }}
   labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    {{- if .Values.isClusterService }}
-    k8s-app: {{ .Chart.Name | quote }}
-    kubernetes.io/cluster-service: "true"
-    kubernetes.io/name: "CoreDNS"
-    {{- end }}
-    app.kubernetes.io/name: {{ template "coredns.name" . }}
+{{- include "coredns.labels" . | nindent 4 }}
 {{- if .Values.customLabels }}
 {{ toYaml .Values.customLabels | indent 4 }}
 {{- end }}
@@ -26,19 +18,11 @@ spec:
       maxSurge: {{ .Values.rollingUpdate.maxSurge }}
   selector:
     matchLabels:
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      {{- if .Values.isClusterService }}
-      k8s-app: {{ .Chart.Name | quote }}
-      {{- end }}
-      app.kubernetes.io/name: {{ template "coredns.name" . }}
+      {{- include "coredns.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- if .Values.isClusterService }}
-        k8s-app: {{ .Chart.Name | quote }}
-        {{- end }}
-        app.kubernetes.io/name: {{ template "coredns.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        {{- include "coredns.selectorLabels" . | nindent 8 }}
 {{- if .Values.customLabels }}
 {{ toYaml .Values.customLabels | indent 8 }}
 {{- end }}
@@ -74,11 +58,15 @@ spec:
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - name: "coredns"
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ include "coredns.repository" .}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: [ "-conf", "/etc/coredns/Corefile" ]
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
         volumeMounts:
         - name: config-volume
           mountPath: /etc/coredns
